@@ -63,6 +63,8 @@ function addTodoToPage(todoItem) {
 function createNewTodo(todoItem) {
     var li = document.createElement("li");
     li.setAttribute("id", todoItem.id);
+    
+    createGeolocation();
 
     var spanTodo = document.createElement("span");
 
@@ -84,6 +86,11 @@ function createNewTodo(todoItem) {
     // add the click handler to update the done state
     spanDone.onclick = updateDone;
 
+    // create span for displaying days until due
+    var spanDaysUntilDue = document.createElement("span");
+		var daysUntilDue = computeDateDifferenceFromToday(new Date(todoItem.dueDate));
+    spanDaysUntilDue.innerHTML = daysUntilDue < 0 ? " (OVERDUE by " + Math.abs(daysUntilDue) + " days)" : " (" + daysUntilDue + " days)";
+
     // add the delete link
     var spanDelete = document.createElement("span");
     spanDelete.setAttribute("class", "delete");
@@ -94,9 +101,23 @@ function createNewTodo(todoItem) {
 
     li.appendChild(spanDone);
     li.appendChild(spanTodo);
+    li.appendChild(spanDaysUntilDue);
     li.appendChild(spanDelete);
 
     return li;
+}
+
+// create a function for determining the number of days between
+// two provided dates. I thought about making this a method on 
+// the todo object, but I figure this would work just as well.
+function computeDateDifferenceFromToday(date) {
+	var today = new Date();
+  var timeDifference = date.getTime() - today.getTime();
+  var seconds = timeDifference / 1000;
+  var minutes = seconds / 60;
+  var hours = minutes / 60;
+  var days = hours / 24;
+  return Math.floor(days); 
 }
 
 function getFormData() {
@@ -117,7 +138,7 @@ function getFormData() {
     try {
         // I guess we can raise an exception here....
         if (isNaN(taskDate)) { throw new Error("Please enter a valid due date"); }
-        var todoItem = new Todo(id, task, who, taskDate);
+        var todoItem = new Todo(id, task, who, new Date(taskDate));
         todos.push(todoItem);
         addTodoToPage(todoItem);
         saveTodoItem(todoItem);
@@ -262,4 +283,16 @@ function showSearchResults() {
     var div = document.getElementById("searchResults");
     div.style.display = "block";
     document.forms[0].reset();
+}
+
+// compute the difference between two dates and return the result in days
+function getDayDifference(date1, date2) {
+    console.log(date1, date2);
+    var timeDifference = date1.getTime() - date2.getTime();
+    // console.log(timeDifference);
+    var seconds = timeDifference / 1000;
+    var minutes = seconds / 60;
+    var hours = minutes / 60;
+    var days = hours / 24;
+    return Math.floor(days);
 }
