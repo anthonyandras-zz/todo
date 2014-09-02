@@ -11,7 +11,6 @@ function Todo(id, task, who, dueDate) {
 }
 
 var todos = new Array();
-
 window.onload = init;
 
 function init() {
@@ -60,14 +59,14 @@ function addTodoToPage(todoItem) {
     document.forms[0].reset();
 }
 
+
 function createNewTodo(todoItem) {
     var li = document.createElement("li");
     li.setAttribute("id", todoItem.id);
-    
-    createGeolocation();
+
+    createGeolocationSpan();
 
     var spanTodo = document.createElement("span");
-
     var dueDate = new Date(todoItem.dueDate);
 
     spanTodo.innerHTML =

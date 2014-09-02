@@ -3,8 +3,8 @@ function createGeolocationSpan() {
 }
 
 function displayLocation(position) {
-  var latitude = position.coords.latitude,
-      longitude = position.coords.longitude;
+  latitude = position.coords.latitude;
+  longitude = position.coords.longitude;
 
   console.log(latitude, longitude);
 }
