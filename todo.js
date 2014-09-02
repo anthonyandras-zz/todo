@@ -64,7 +64,7 @@ function createNewTodo(todoItem) {
     var li = document.createElement("li");
     li.setAttribute("id", todoItem.id);
 
-    createGeolocationSpan();
+    var geolocationSpan = createGeolocationSpan();    
 
     var spanTodo = document.createElement("span");
     var dueDate = new Date(todoItem.dueDate);
