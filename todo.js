@@ -65,8 +65,11 @@ function createNewTodo(todoItem) {
     li.setAttribute("id", todoItem.id);
 
     var spanTodo = document.createElement("span");
+
+    var dueDate = new Date(todoItem.dueDate);
+
     spanTodo.innerHTML =
-        todoItem.who + " needs to " + todoItem.task + " by " + todoItem.dueDate;
+        todoItem.who + " needs to " + todoItem.task + " by " + dueDate.toLocaleDateString();
 
     var spanDone = document.createElement("span");
     if (!todoItem.done) {
@@ -105,16 +108,26 @@ function getFormData() {
 
     var date = document.getElementById("dueDate").value;
     if (checkInputText(date, "Please enter a due date")) return;
-    // later, process date here
-
+    
     var id = (new Date()).getTime();
-    var todoItem = new Todo(id, task, who, date);
-    todos.push(todoItem);
-    addTodoToPage(todoItem);
-    saveTodoItem(todoItem);
+    var taskDate = Date.parse(date);
+    // later, process date here
+    // try to parse into an actual date object to set us up for 
+    // "Support for dates, showing how many days until a task is due, or how many days overdue a task is."
+    try {
+        // I guess we can raise an exception here....
+        if (isNaN(taskDate)) { throw new Error("Please enter a valid due date"); }
+        var todoItem = new Todo(id, task, who, taskDate);
+        todos.push(todoItem);
+        addTodoToPage(todoItem);
+        saveTodoItem(todoItem);
 
-    // hide search results
-    hideSearchResults();
+        // hide search results
+        hideSearchResults();        
+    } catch (ex) {
+        alert(ex.message);
+        return;
+    } 
 }
 
 function checkInputText(value, msg) {
