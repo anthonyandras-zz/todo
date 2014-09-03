@@ -8,6 +8,8 @@ function Todo(id, task, who, dueDate) {
     this.who = who;
     this.dueDate = dueDate;
     this.done = false;
+    this.latitude = null;
+    this.longitude = null;
 }
 
 var todos = new Array();
@@ -64,7 +66,8 @@ function createNewTodo(todoItem) {
     var li = document.createElement("li");
     li.setAttribute("id", todoItem.id);
 
-    var geolocationSpan = createGeolocationSpan();    
+    var spanGeolocation = document.createElement("span");
+    if(todoItem.latitude && todoItem.longitude) { spanGeolocation.innerHTML = "(" + todoItem.latitude + ", " + todoItem.longitude + ") "; }
 
     var spanTodo = document.createElement("span");
     var dueDate = new Date(todoItem.dueDate);
@@ -99,6 +102,7 @@ function createNewTodo(todoItem) {
     spanDelete.onclick = deleteItem;
 
     li.appendChild(spanDone);
+    li.appendChild(spanGeolocation);
     li.appendChild(spanTodo);
     li.appendChild(spanDaysUntilDue);
     li.appendChild(spanDelete);
@@ -138,9 +142,8 @@ function getFormData() {
         // I guess we can raise an exception here....
         if (isNaN(taskDate)) { throw new Error("Please enter a valid due date"); }
         var todoItem = new Todo(id, task, who, new Date(taskDate));
-        todos.push(todoItem);
-        addTodoToPage(todoItem);
-        saveTodoItem(todoItem);
+        // populate geolocation of todo item
+        populateTodoItem(todoItem);
 
         // hide search results
         hideSearchResults();        

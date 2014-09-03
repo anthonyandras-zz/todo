@@ -1,12 +1,12 @@
-function createGeolocationSpan() {
-  navigator.geolocation.getCurrentPosition(displayLocation);
+function populateTodoItem(todoItem) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+	  var latitude = position.coords.latitude,
+	      longitude = position.coords.longitude;
+	  todoItem.latitude = latitude;
+	  todoItem.longitude = longitude;
+
+      todos.push(todoItem);
+      addTodoToPage(todoItem);
+      saveTodoItem(todoItem);
+  });
 }
-
-function displayLocation(position) {
-  var latitude = position.coords.latitude,
-      longitude = position.coords.longitude;
-
-  console.log(latitude, longitude);
-  return 0;
-}
-
