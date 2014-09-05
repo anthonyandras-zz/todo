@@ -6,20 +6,20 @@
     <script src="modernizr.js"></script>
     <script>
         Modernizr.load([
-            "todo.js",
+            "todo.js",           
             {
                 test: Modernizr.localstorage,
                 yep : "localStorage.js",
-                nope: "noLocalStorage.js",
+                nope: "noLocalStorage.js"
+            },
+            {
+                test: Modernizr.geolocation,
+                yep : "geolocation.js",
+                nope: "noGeolocation.js",
                 complete: function() {
                     init();
                 }                
-            }
-            // {
-            //     test: Modernizr.geolocation,
-            //     yep : "geolocation.js",
-            //     nope: "noGeolocation.js"
-            // },
+            }            
         ]);
     </script>
     <link rel="stylesheet" href="todo.css">

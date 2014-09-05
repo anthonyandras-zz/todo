@@ -19,6 +19,7 @@ function getTodoItems() {
 function saveTodoItem(todoItem) {
     var key = "todo" + todoItem.id;
     var item = JSON.stringify(todoItem);
+    console.log(item);
     localStorage.setItem(key, item);
 }
 
