@@ -61,6 +61,34 @@ function createNewTodo(todoItem) {
         spanDone.innerHTML = "&nbsp;&#10004;&nbsp;";
     }
 
+    // create the amount of time until due feature
+    var spanTimeUntilDue = document.createElement("span");
+    try {
+        var todoDueDate = Date.parse(todoItem.dueDate);
+        if(isNaN(todoDueDate)) {
+            throw new Error("There was a problem parsing the due date");
+        }
+        
+        var today = new Date();
+        var timeUntilDue = todoDueDate - today;
+        var seconds = timeUntilDue / 1000;
+        var minutes = seconds / 60;
+        var hours = minutes / 60;
+        var days = Math.abs(Math.floor(hours / 24));
+                
+        if (timeUntilDue < 0) {
+            spanTimeUntilDue.innerHTML = " (OVERDUE by " + days + " days)";
+        } else {
+            spanTimeUntilDue.innerHTML = " (" + days + " days)";
+        }
+
+    } catch (ex) {
+        // in the event there is a problem with parsing the date (which there won't be given the format 
+        //  of this application), let the user know.
+        console.log(ex.message);
+        alert(ex.message);
+    }
+
     // add the click handler to update the done state
     spanDone.onclick = updateDone;
 
@@ -74,6 +102,7 @@ function createNewTodo(todoItem) {
 
     li.appendChild(spanDone);
     li.appendChild(spanTodo);
+    li.appendChild(spanTimeUntilDue);
     li.appendChild(spanDelete);
 
     return li;
