@@ -3,7 +3,25 @@
 <head>
     <title>JavaScript, Ajax and JSON: To Do List</title>
     <meta charset="utf-8">
-    <script src="todo.js"></script>
+    <script src="modernizr.js"></script>
+    <script>
+        Modernizr.load([
+            "todo.js",
+            {
+                test: Modernizr.localstorage,
+                yep : "noLocalStorage.js",
+                nope: "localStorage.js",
+                complete: function() {
+                    init();
+                }                
+            }
+            // {
+            //     test: Modernizr.geolocation,
+            //     yep : "geolocation.js",
+            //     nope: "noGeolocation.js"
+            // },
+        ]);
+    </script>
     <link rel="stylesheet" href="todo.css">
 </head>
 <body>
