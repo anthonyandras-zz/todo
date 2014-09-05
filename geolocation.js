@@ -69,7 +69,6 @@ function createNewTodo(todoItem) {
         } else {
             spanTimeUntilDue.innerHTML = " (" + days + " days)";
         }
-
     } catch (ex) {
         // in the event there is a problem with parsing the date (which there won't be given the format 
         //  of this application), let the user know.
@@ -94,32 +93,32 @@ function createNewTodo(todoItem) {
     li.appendChild(spanTimeUntilDue);
     li.appendChild(spanDelete);
 
-    showMap(todoItem.latitude, todoItem.longitude);
-    addMarker(todoItem.latitude, todoItem.longitude);
+    if (!map) {
+        showMap(todoItem.latitude, todoItem.longitude);
+    }
+    addMarker(todoItem.latitude, todoItem.longtiude, todoItem.task);
 
     return li;
 }
 
 function showMap(lat, long) {
-    console.log("in show map");
     var googleLatLong = new google.maps.LatLng(lat, long);
     var mapOptions = {
         zoom: 12,
         center: googleLatLong,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    
     var mapDiv = document.getElementById("map");
     map = new google.maps.Map(mapDiv, mapOptions);
     map.panTo(googleLatLong);
 }
 
-function addMarker(lat, long) {
+function addMarker(lat, long, todoDescription) {
     var googleLatLong = new google.maps.LatLng(lat, long);
     var markerOptions = {
         position: googleLatLong,
         map: map,
-        title: "Where I'm thinking today"
-    };
+        title: "todoDescription"
+    }
     var marker = new google.maps.Marker(markerOptions);
 }

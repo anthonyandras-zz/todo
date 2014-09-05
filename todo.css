@@ -11,6 +11,11 @@ h2 {
 div#searchResults {
     display: none;
 }
+div#map {
+    height: 400px;
+    width: 400px;
+    margin-left: 15px;
+}
 div.tableContainer {
     display: table;
     border-spacing: 5px;
