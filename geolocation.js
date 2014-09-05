@@ -1,3 +1,5 @@
+var map = null;
+
 function getFormData() {
     var task = document.getElementById("task").value;
     if (checkInputText(task, "Please enter a task")) return;
@@ -92,5 +94,32 @@ function createNewTodo(todoItem) {
     li.appendChild(spanTimeUntilDue);
     li.appendChild(spanDelete);
 
+    showMap(todoItem.latitude, todoItem.longitude);
+    addMarker(todoItem.latitude, todoItem.longitude);
+
     return li;
+}
+
+function showMap(lat, long) {
+    console.log("in show map");
+    var googleLatLong = new google.maps.LatLng(lat, long);
+    var mapOptions = {
+        zoom: 12,
+        center: googleLatLong,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    
+    var mapDiv = document.getElementById("map");
+    map = new google.maps.Map(mapDiv, mapOptions);
+    map.panTo(googleLatLong);
+}
+
+function addMarker(lat, long) {
+    var googleLatLong = new google.maps.LatLng(lat, long);
+    var markerOptions = {
+        position: googleLatLong,
+        map: map,
+        title: "Where I'm thinking today"
+    };
+    var marker = new google.maps.Marker(markerOptions);
 }
