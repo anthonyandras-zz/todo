@@ -96,7 +96,7 @@ function createNewTodo(todoItem) {
     if (!map) {
         showMap(todoItem.latitude, todoItem.longitude);
     }
-    addMarker(todoItem.latitude, todoItem.longtiude, todoItem.task);
+    addMarker(todoItem.latitude, todoItem.longitude, todoItem.task);
 
     return li;
 }
